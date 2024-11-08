@@ -43,7 +43,7 @@ function my_function_making_use_of_database() {
 ### Table prefix
 
 - Most Moodle installations use a prefix for all the database tables, such as <tt>mdl_</tt>. This prefix is NOT to be used in the code itself.
-- All the `$table` parameters in the functions are meant to be the table name without prefixes:
+- All the `string $table` parameters in the functions are meant to be the table name without prefixes:
 
 ```php
 $user = $DB->get_record('user', ['id' => '1']);
@@ -107,7 +107,7 @@ Return a single database record as an object where all the given conditions are 
 
 ```php
 public function get_record(
-    $table,
+    string $table,
     array $conditions,
     $fields = '*',
     $strictness = IGNORE_MISSING
@@ -120,8 +120,8 @@ Return a single database record as an object where the given conditions are used
 
 ```php
 public function get_record_select(
-    $table,
-    $select,
+    string $table,
+    string $select,
     array $params = null,
     $fields = '*',
     $strictness = IGNORE_MISSING
@@ -134,7 +134,7 @@ Return a single database record as an object using a custom SELECT query.
 
 ```php
 public function get_record_sql(
-    $sql,
+    string $sql,
     array $params = null,
     $strictness = IGNORE_MISSING
 );
@@ -150,7 +150,7 @@ Return a list of records as an array of objects where all the given conditions a
 
 ```php
 public function get_records(
-    $table,
+    string $table,
     array $conditions = null,
     $sort = '',
     $fields = '*',
@@ -165,8 +165,8 @@ Return a list of records as an array of objects where the given conditions are u
 
 ```php
 public function get_records_select(
-    $table,
-    $select,
+    string $table,
+    string $select,
     array $params = null,
     $sort = '',
     $fields = '*',
@@ -174,7 +174,6 @@ public function get_records_select(
     $limitnum = 0
 );
 ```
-
 The `$fields` parameter is a comma separated list of fields to return (optional, by default all fields are returned).
 
 ### get_records_sql
@@ -183,7 +182,7 @@ Return a list of records as an array of objects using a custom SELECT query.
 
 ```php
 public function get_records_sql(
-    $sql,
+    string $sql,
     array $params = null,
     $limitfrom = 0,
     $limitnum = 0
@@ -196,8 +195,8 @@ Return a list of records as an array of objects where the given field matches on
 
 ```php
 public function get_records_list(
-    $table,
-    $field,
+    string $table,
+    string $sql,
     array $values,
     $sort = *,
     $fields = '*',
@@ -214,7 +213,7 @@ Return the first two columns from a list of records as an associative array wher
 
 ```php
 public function get_records_menu(
-    $table,
+    string $table,
     array $conditions = null,
     $sort = '',
     $fields = '*',
@@ -229,8 +228,8 @@ Return the first two columns from a list of records as an associative array wher
 
 ```php
 public function get_records_select_menu(
-    $table,
-    $select,
+    string $table,
+    string $select,
     array $params = null,
     $sort = '',
     $fields = '*',
@@ -245,7 +244,7 @@ Return the first two columns from a number of records as an associative array us
 
 ```php
 public function get_records_sql_menu(
-    $sql,
+    string $sql,
     array $params = null,
     $limitfrom = 0,
     $limitnum = 0
@@ -260,7 +259,7 @@ Count the records in a table where all the given conditions are met.
 
 ```php
 public function count_records(
-    $table,
+    string $table,
     array $conditions = null
 );
 ```
@@ -271,8 +270,8 @@ Count the records in a table where the given conditions are used in the WHERE cl
 
 ```php
 public function count_records_select(
-    $table,
-    $select,
+    string $table,
+    string $select,
     array $params = null,
     $countitem = "COUNT('x')"
 );
@@ -284,7 +283,7 @@ Counting the records using a custom SELECT COUNT(...) query.
 
 ```php
 public function count_records_sql(
-    $sql,
+    string $sql,
     array $params = null
 );
 ```
@@ -297,7 +296,7 @@ Test whether a record exists in a table where all the given conditions are met.
 
 ```php
 public function record_exists(
-    $table,
+    string $table,
     array $conditions = null
 );
 ```
@@ -308,8 +307,8 @@ Test whether any records exists in a table where the given conditions are used i
 
 ```php
 public function record_exists_select(
-    $table,
-    $select,
+    string $table,
+    string $select,
     array $params = null
 );
 ```
@@ -320,7 +319,7 @@ Test whether the given SELECT query would return any record.
 
 ```php
 public function record_exists_sql(
-    $sql,
+    string $sql,
     array $params = null
 );
 ```
@@ -333,8 +332,8 @@ Get a single field value from a table record where all the given conditions are 
 
 ```php
 public function get_field(
-    $table,
-    $return,
+    string $table,
+    string $return,
     array $conditions,
     $strictness = IGNORE_MISSING
 );
@@ -346,9 +345,9 @@ Get a single field value from a table record where the given conditions are used
 
 ```php
 public function get_field_select(
-    $table,
-    $return,
-    $select,
+    string $table,
+    string $return,
+    string $select,
     array $params = null,
     $strictness = IGNORE_MISSING
 );
@@ -360,7 +359,7 @@ Get a single field value (first field) using a custom SELECT query.
 
 ```php
 public function get_field_sql(
-    $sql,
+    string $sql,
     array $params = null,
     $strictness = IGNORE_MISSING
 );
@@ -374,9 +373,9 @@ Return values of the given field as an array where the given conditions are used
 
 ```php
 public function get_fieldset_select(
-    $table,
-    $return,
-    $select,
+    string $table,
+    string $return,
+    string $select,
     array $params = null
 );
 ```
@@ -387,7 +386,7 @@ Return values of the first column as an array using a custom SELECT field FROM .
 
 ```php
 public function get_fieldset_sql(
-    $sql,
+    string $sql,
     array $params = null
 );
 ```
@@ -400,7 +399,7 @@ Set a single field in every record where all the given conditions are met.
 
 ```php
 public function set_field(
-    $table,
+    string $table,
     $newfield,
     $newvalue,
     array $conditions = null
@@ -413,10 +412,10 @@ Set a single field in every table record where the given conditions are used in 
 
 ```php
 public function set_field_select(
-    $table,
+    string $table,
     $newfield,
     $newvalue,
-    $select,
+    string $select,
     array $params = null
 );
 ```
@@ -429,7 +428,7 @@ Delete records from the table where all the given conditions are met.
 
 ```php
 public function delete_records(
-    $table,
+    string $table,
     array $conditions = null
 );
 ```
@@ -440,8 +439,8 @@ Delete records from the table where the given conditions are used in the WHERE c
 
 ```php
 public function delete_records_select(
-    $table,
-    $select,
+    string $table,
+    string $select,
     array $params = null
 );
 ```
@@ -454,7 +453,7 @@ Insert the given data object into the table and return the "id" of the newly cre
 
 ```php
 public function insert_record(
-    $table,
+    string $table,
     $dataobject,
     $returnid = true,
     $bulk = false
@@ -467,7 +466,7 @@ Insert multiple records into the table as fast as possible. Records are inserted
 
 ```php
 public function insert_records(
-    $table,
+    string $table,
     $dataobjects
 );
 ```
@@ -484,7 +483,7 @@ Update a record in the table. The data object must have the property "id" set.
 
 ```php
 public function update_record(
-    $table,
+    string $table,
     $dataobject,
     $bulk = false
 );
@@ -498,7 +497,7 @@ public function update_record(
 
 ```php
 public function execute(
-    $sql,
+    string $sql,
     array $params = null
 );
 ```
@@ -539,7 +538,7 @@ Return a list of records as a moodle_recordset where all the given conditions ar
 
 ```php
 public function get_recordset(
-    $table,
+    string $table,
     array $conditions = null,
     $sort = '',
     $fields = '*',
@@ -554,8 +553,8 @@ Return a list of records as a moodle_recordset where the given conditions are us
 
 ```php
 public function get_recordset_select(
-    $table,
-    $select,
+    string $table,
+    string $select,
     array $params = null,
     $sort = '',
     $fields = '*',
@@ -570,7 +569,7 @@ Return a list of records as a moodle_recordset using a custom SELECT query.
 
 ```php
 public function get_recordset_sql(
-    $sql,
+    string $sql,
     array $params = null,
     $limitfrom = 0,
     $limitnum = 0
@@ -583,8 +582,8 @@ Return a list of records as a moodle_recordset where the given field matches one
 
 ```php
 public function get_recordset_list(
-    $table,
-    $field,
+    string $table,
+    string $sql,
     array $values,
     $sort = *,
     $fields = '*',
@@ -929,7 +928,7 @@ public function sql_concat('requiredfield', "COALESCE(optionalfield, '')");
 Return SQL for performing group concatenation on given field/expression.
 
 ```php
-public function sql_group_concat(string $field, string $separator = ', ', string $sort = '')
+public function sql_group_concat(string string $sql, string $separator = ', ', string $sort = '')
 ```
 
 ### sql_concat_join
@@ -960,7 +959,7 @@ Return the query fragment to check if the field is empty
 
 ```php
 public function sql_isempty(
-    $tablename,
+    string $tablename,
     $fieldname,
     $nullablefield,
     $textfield
@@ -973,7 +972,7 @@ Return the query fragment to check if the field is not empty
 
 ```php
 public function sql_isnotempty(
-    $tablename,
+    string $tablename,
     $fieldname,
     $nullablefield,
     $textfield
@@ -1040,7 +1039,7 @@ if ($DB->sql_regex_supported()) {
     $params = ['pattern'  => '% = %http%://%'];
 }
 
-$pages = $DB->get_records_select('page', $select, $params, 'course', 'id, course, name');
+$pages = $DB->get_records_select('page', string $select, $params, 'course', 'id, course, name');
 ```
 
 ### sql_regex_get_word_beginning_boundary_marker
